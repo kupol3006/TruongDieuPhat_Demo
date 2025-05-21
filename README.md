@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Admin Dashboard - Interview Project
 
-## Getting Started
+Dự án này được xây dựng cho bài test phỏng vấn, tạo một giao diện admin dashboard đơn giản với 2 trang chính: Dashboard và Settings.
 
-First, run the development server:
+## Công nghệ sử dụng
+
+- **Next.js 15.3.2** - Framework React hiện đại
+- **React 19.0.0** - Thư viện UI
+- **Tailwind CSS** - Framework CSS tiện ích
+- **shadcn/ui** - Components UI đẹp và dễ tùy biến
+- **React Hook Form + Zod** - Xử lý form và validation
+- **Zustand** - Quản lý state
+
+## Tính năng
+
+### Trang Dashboard:
+- Stats Cards hiển thị số liệu thống kê
+- Danh sách Pending Suppliers với nút Approve
+- Danh sách Pending Events với nút Approve/Reject
+- Danh sách Reported Posts với nút View chi tiết
+- Dialog/Modal khi click vào các nút hành động
+
+### Trang Settings:
+- Form với các trường: Name, Email, Password
+- Validation sử dụng React Hook Form + Zod
+- Lưu trạng thái form với Zustand
+
+### Các tính năng chung:
+- Chế độ Dark Mode / Light Mode
+- Responsive design (di động và desktop)
+- Sidebar navigation có thể thu gọn trên mobile
+
+## Cách chạy dự án
 
 ```bash
+# Cài đặt các dependencies
+npm install
+
+# Chạy môi trường development
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Truy cập http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Thiết kế và Kiến trúc
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Component-based Architecture**: Tất cả UI được chia thành các component nhỏ, có thể tái sử dụng
+- **Separation of Concerns**: Các components UI chung được tách riêng khỏi components cụ thể của business
+- **State Management**: Zustand được sử dụng để quản lý state giữa các trang
+- **Responsive Design**: Tailwind CSS giúp tạo giao diện chạy tốt trên mọi kích thước màn hình
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Các nâng cấp có thể thực hiện
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Thêm tính năng authentication
+- Tích hợp API để lấy dữ liệu thực tế
+- Thêm nhiều trang admin khác như quản lý người dùng, phân tích, v.v.
+- Tích hợp testing cho các component
+- Tối ưu hiệu suất với Server Components của Next.js
