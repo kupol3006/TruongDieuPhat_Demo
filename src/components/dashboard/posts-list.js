@@ -42,11 +42,11 @@ export function PostsList({ posts = [] }) {
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
               <Flag className="h-5 w-5 text-amber-500" />
-              Bài viết bị báo cáo
+              Reported Posts
             </CardTitle>
             <Button variant="outline" size="sm" className="h-8 text-xs">
               <ExternalLink className="h-3.5 w-3.5 mr-1" />
-              <span>Xem tất cả</span>
+              <span>View All</span>
             </Button>
           </div>
         </CardHeader>
@@ -54,7 +54,7 @@ export function PostsList({ posts = [] }) {
           {posts.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-center">
               <CheckCircle className="h-10 w-10 text-muted-foreground/30 mb-2" />
-              <p className="text-muted-foreground">Không có bài viết nào bị báo cáo</p>
+              <p className="text-muted-foreground">No reported posts</p>
             </div>
           ) : (
             <div className="space-y-1">

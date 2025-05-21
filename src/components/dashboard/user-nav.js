@@ -52,33 +52,33 @@ export function UserNav() {
               <div className="mt-3 flex items-center justify-between">
                 <Badge className="bg-green-500 text-white">Administrator</Badge>
                 <Button variant="outline" size="sm" className="h-7 text-xs">
-                  <User className="h-3 w-3 mr-1" /> Hồ sơ
+                  <User className="h-3 w-3 mr-1" /> Profile
                 </Button>
               </div>
             </div>
             <nav className="flex flex-col space-y-1">
               <Button variant="ghost" className="justify-start text-xs" onClick={() => setIsOpen(false)}>
                 <Mail className="mr-2 h-4 w-4" />
-                Tin nhắn
+                Messages
                 <Badge className="ml-auto">3</Badge>
               </Button>
               <Button variant="ghost" className="justify-start text-xs" onClick={() => setIsOpen(false)}>
                 <Settings className="mr-2 h-4 w-4" />
-                Cài đặt tài khoản
+                Account Settings
               </Button>
               <Button variant="ghost" className="justify-start text-xs" onClick={() => setIsOpen(false)}>
                 <HelpCircle className="mr-2 h-4 w-4" />
-                Trợ giúp và hỗ trợ
+                Help & Support
               </Button>
               <Button variant="ghost" className="justify-start text-xs text-red-500 hover:text-red-500 hover:bg-red-50/10" onClick={() => setIsOpen(false)}>
                 <LogOut className="mr-2 h-4 w-4" />
-                Đăng xuất
+                Logout
               </Button>
             </nav>
             <div className="border-t mt-2 pt-2">
               <Button variant="outline" size="sm" className="w-full justify-center text-xs" onClick={() => setIsOpen(false)}>
                 <ExternalLink className="mr-2 h-3 w-3" />
-                Chuyển đến trang chủ
+                Go to Homepage
               </Button>
             </div>
           </div>

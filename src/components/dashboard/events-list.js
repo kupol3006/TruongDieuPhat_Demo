@@ -36,11 +36,11 @@ export function EventsList({ events = [] }) {
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
               <CalendarClock className="h-5 w-5 text-violet-500" />
-              Sự kiện đang chờ duyệt
+              Pending Events
             </CardTitle>
             <Button variant="outline" size="sm" className="h-8 text-xs">
               <ExternalLink className="h-3.5 w-3.5 mr-1" />
-              <span>Xem tất cả</span>
+              <span>View All</span>
             </Button>
           </div>
         </CardHeader>
@@ -48,7 +48,7 @@ export function EventsList({ events = [] }) {
           {events.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-center">
               <CheckCircle className="h-10 w-10 text-muted-foreground/30 mb-2" />
-              <p className="text-muted-foreground">Không có sự kiện nào đang chờ duyệt</p>
+              <p className="text-muted-foreground">No pending events</p>
             </div>
           ) : (
             <div className="space-y-1">
@@ -72,7 +72,7 @@ export function EventsList({ events = [] }) {
                         <Calendar className="h-3 w-3" /> {event.date}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Users className="h-3 w-3" /> {event.attendees} người tham dự
+                        <Users className="h-3 w-3" /> {event.attendees} attendees
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" /> {event.time}
@@ -172,7 +172,7 @@ export function EventsList({ events = [] }) {
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-muted-foreground" /> 
-                  <span>{selectedEvent.attendees} người tham dự</span>
+                  <span>{selectedEvent.attendees} attendees</span>
                 </div>
               </div>
             )}

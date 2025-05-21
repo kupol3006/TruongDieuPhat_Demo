@@ -30,7 +30,7 @@ const navItems = [
     badge: null,
   },
   {
-    title: "Quản lý",
+    title: "Management",
     icon: Gauge,
     children: [
       {

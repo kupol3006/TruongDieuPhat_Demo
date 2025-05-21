@@ -5,19 +5,19 @@ import { useState } from "react"
 import { Download, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// Giả lập dữ liệu biểu đồ
+// Mock chart data
 const chartData = {
   daily: Array.from({ length: 7 }).map((_, i) => ({
     value: 20 + Math.floor(Math.random() * 40),
-    label: new Date(Date.now() - i * 86400000).toLocaleDateString('vi-VN', { weekday: 'short' })
+    label: new Date(Date.now() - i * 86400000).toLocaleDateString('en-US', { weekday: 'short' })
   })).reverse(),
   weekly: Array.from({ length: 8 }).map((_, i) => ({
     value: 120 + Math.floor(Math.random() * 200),
-    label: `Tuần ${i+1}`
+    label: `Week ${i+1}`
   })),
   monthly: Array.from({ length: 12 }).map((_, i) => ({
     value: 500 + Math.floor(Math.random() * 1000),
-    label: new Date(0, i).toLocaleDateString('vi-VN', { month: 'short' })
+    label: new Date(0, i).toLocaleDateString('en-US', { month: 'short' })
   }))
 }
 
@@ -27,7 +27,7 @@ export function OverviewChart() {
   const data = chartData[timeRange]
   const max = Math.max(...data.map(d => d.value))
   
-  // Tính màu cho cột dựa trên giá trị
+  // Calculate column color based on value
   const getColumnColor = (value) => {
     const percent = value / max
     if (percent > 0.8) return "bg-blue-500"
@@ -41,13 +41,13 @@ export function OverviewChart() {
       <CardHeader>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <CardTitle>Tổng quan hoạt động</CardTitle>
+            <CardTitle>Activity Overview</CardTitle>
             <CardDescription>
               {timeRange === 'daily' 
-                ? 'Số lượng hoạt động trong 7 ngày qua' 
+                ? 'Activity counts for the past 7 days' 
                 : timeRange === 'weekly' 
-                ? 'Số lượng hoạt động trong 8 tuần qua' 
-                : 'Số lượng hoạt động trong năm nay'}
+                ? 'Activity counts for the past 8 weeks' 
+                : 'Activity counts for this year'}
             </CardDescription>
           </div>
           
@@ -120,7 +120,7 @@ export function OverviewChart() {
                   ? 'bg-primary text-primary-foreground' 
                   : 'hover:bg-muted'}`}
               >
-                Ngày
+                Daily
               </button>
               <button 
                 onClick={() => setTimeRange('weekly')}
@@ -128,7 +128,7 @@ export function OverviewChart() {
                   ? 'bg-primary text-primary-foreground' 
                   : 'hover:bg-muted'}`}
               >
-                Tuần
+                Weekly
               </button>
               <button 
                 onClick={() => setTimeRange('monthly')}
@@ -136,7 +136,7 @@ export function OverviewChart() {
                   ? 'bg-primary text-primary-foreground' 
                   : 'hover:bg-muted'}`}
               >
-                Tháng
+                Monthly
               </button>
             </div>
           </div>
