@@ -1,4 +1,4 @@
-// File: src/app/settings/layout.js
+"use client"
 import { Sidebar } from "@/components/sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeSwitcher } from "@/components/theme-switcher"
@@ -6,8 +6,12 @@ import { UserNav } from "@/components/dashboard/user-nav"
 import { Search, BellIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useSettingsStore } from "@/lib/store"
 
 export default function SettingsLayout({ children }) {
+  // Get user information from the store to display in the page header
+  const { name, email } = useSettingsStore()
+  
   return (
     <ThemeProvider defaultTheme="system" storageKey="dashboard-theme">
       <div className="flex min-h-screen bg-muted/10">

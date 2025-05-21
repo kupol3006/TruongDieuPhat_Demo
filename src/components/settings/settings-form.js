@@ -75,7 +75,7 @@ export function SettingsForm() {
       <div className="flex items-start gap-6 flex-col sm:flex-row">
         <div className="flex flex-col items-center gap-2">
           <Avatar className="h-24 w-24 border-4 border-background shadow">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary text-primary-foreground text-2xl font-medium">
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-primary text-primary-foreground text-2xl font-medium">
               {form.watch("name").split(" ").map(word => word[0]).join("").toUpperCase().substring(0, 2)}
             </div>
           </Avatar>
@@ -170,9 +170,8 @@ export function SettingsForm() {
                     <p className="text-xs text-red-500">{form.formState.errors.confirmPassword.message}</p>
                   )}
                 </div>
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Leave password fields empty if you dont want to change it.
+              </div>              <p className="text-xs text-muted-foreground mt-2">
+                Leave password fields empty if you don&apos;t want to change it.
               </p>
             </div>
 

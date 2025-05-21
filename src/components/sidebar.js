@@ -223,11 +223,11 @@ export function Sidebar({ className }) {
             href="#notifications"
             className="flex items-center justify-between rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
           >
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <Bell className="h-4 w-4" />
               <span>Notifications</span>
             </div>
-            <Badge className="bg-red-500 text-white">5</Badge>
+            <Badge className="bg-red-500 text-white">5</Badge> */}
           </Link>
           <Link
             href="#help"

@@ -7,10 +7,29 @@ import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import { UserRound, Palette, Bell, Shield, Globe, Mail, CreditCard, MonitorSmartphone } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { useSettingsStore } from "@/lib/store"
+import { Avatar } from "@/components/ui/avatar"
 
 export default function Settings() {
   const { theme, setTheme } = useTheme()
+  const { name, email, notificationPreferences, displayDensity } = useSettingsStore()
   const [activeTab, setActiveTab] = useState("profile")
+  
+  // Generate initials from name or default to "AD"
+  const initials = name 
+    ? name.split(" ").map(word => word[0]).join("").toUpperCase().substring(0, 2)
+    : "AD"
+  
+  // Display name: prioritize name from store or default to "Admin"
+  const displayName = name || "Admin User"
+  
+  // Display email: prioritize email from store or default to admin@example.com
+  const displayEmail = email || "admin@example.com"
+  
+  // Get notification count
+  const notificationCount = Object.values(notificationPreferences).filter(v => 
+    typeof v === 'boolean' && v === true
+  ).length
   
   return (
     <div className="space-y-6">
@@ -19,9 +38,20 @@ export default function Settings() {
           <h1 className="text-2xl sm:text-3xl font-bold">Account Settings</h1>
           <p className="text-muted-foreground mt-1">Manage your account preferences and settings</p>
         </div>
-        <Badge variant="outline" className="px-3 py-1 bg-primary/5 border-primary/20">
-          Admin Account
-        </Badge>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block text-right">
+            <p className="text-sm font-medium">{displayName}</p>
+            <p className="text-xs text-muted-foreground">{displayEmail}</p>
+          </div>
+          <Avatar className="h-9 w-9 border-2 border-primary/20">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-medium">
+              {initials}
+            </div>
+          </Avatar>
+          <Badge variant="outline" className="px-3 py-1 bg-primary/5 border-primary/20">
+            Admin Account
+          </Badge>
+        </div>
       </div>
       
       <div className="grid md:grid-cols-[240px_1fr] gap-6">
@@ -137,23 +167,34 @@ export default function Settings() {
                       Select your preferred theme mode. System theme will automatically match your device settings.
                     </p>
                   </div>
-                  
-                  <div>
+                    <div>
                     <h3 className="text-lg font-medium mb-3">Display Density</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <Button variant="outline" className="h-auto flex-col py-4 px-4 border-2 border-muted">
+                      <Button 
+                        variant="outline" 
+                        className={`h-auto flex-col py-4 px-4 border-2 ${useSettingsStore.getState().displayDensity === 'compact' ? 'border-primary' : 'border-muted'}`}
+                        onClick={() => useSettingsStore.getState().setDisplayDensity('compact')}
+                      >
                         <MonitorSmartphone className="h-5 w-5 mb-2" />
                         <span className="font-medium">Compact</span>
                         <span className="text-xs text-muted-foreground mt-1">Tighter spacing</span>
                       </Button>
                       
-                      <Button variant="outline" className="h-auto flex-col py-4 px-4 border-2 border-primary">
+                      <Button 
+                        variant="outline" 
+                        className={`h-auto flex-col py-4 px-4 border-2 ${useSettingsStore.getState().displayDensity === 'default' ? 'border-primary' : 'border-muted'}`}
+                        onClick={() => useSettingsStore.getState().setDisplayDensity('default')}
+                      >
                         <MonitorSmartphone className="h-5 w-5 mb-2" />
                         <span className="font-medium">Default</span>
                         <span className="text-xs text-muted-foreground mt-1">Standard layout</span>
                       </Button>
                       
-                      <Button variant="outline" className="h-auto flex-col py-4 px-4 border-2 border-muted">
+                      <Button 
+                        variant="outline" 
+                        className={`h-auto flex-col py-4 px-4 border-2 ${useSettingsStore.getState().displayDensity === 'comfortable' ? 'border-primary' : 'border-muted'}`}
+                        onClick={() => useSettingsStore.getState().setDisplayDensity('comfortable')}
+                      >
                         <MonitorSmartphone className="h-5 w-5 mb-2" />
                         <span className="font-medium">Comfortable</span>
                         <span className="text-xs text-muted-foreground mt-1">More whitespace</span>
@@ -163,8 +204,7 @@ export default function Settings() {
                 </CardContent>
               </Card>
             </div>
-          )}
-          {activeTab === "notifications" && (
+          )}          {activeTab === "notifications" && (
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -186,21 +226,39 @@ export default function Settings() {
                         </div>
                         <div className="ml-auto">
                           <div className="flex items-center space-x-2">
-                            <Button variant="outline" size="sm" className="w-20 bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400">
-                              Enabled
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className={`w-20 ${useSettingsStore.getState().notificationPreferences.email ? 
+                                "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400" : ""}`}
+                              onClick={() => {
+                                const currentValue = useSettingsStore.getState().notificationPreferences.email;
+                                useSettingsStore.getState().setNotificationPreference('email', !currentValue);
+                              }}
+                            >
+                              {useSettingsStore.getState().notificationPreferences.email ? "Enabled" : "Disabled"}
                             </Button>
                           </div>
                         </div>
                       </div>
-                        <div className="flex items-start justify-between space-x-4 rounded-lg border p-4">
+                      <div className="flex items-start justify-between space-x-4 rounded-lg border p-4">
                         <div>
                           <h4 className="font-semibold">Browser Notifications</h4>
                           <p className="text-sm text-muted-foreground">Receive desktop notifications when you&apos;re online</p>
                         </div>
                         <div className="ml-auto">
                           <div className="flex items-center space-x-2">
-                            <Button variant="outline" size="sm" className="w-20">
-                              Disabled
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className={`w-20 ${useSettingsStore.getState().notificationPreferences.browser ? 
+                                "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400" : ""}`}
+                              onClick={() => {
+                                const currentValue = useSettingsStore.getState().notificationPreferences.browser;
+                                useSettingsStore.getState().setNotificationPreference('browser', !currentValue);
+                              }}
+                            >
+                              {useSettingsStore.getState().notificationPreferences.browser ? "Enabled" : "Disabled"}
                             </Button>
                           </div>
                         </div>
@@ -213,8 +271,17 @@ export default function Settings() {
                         </div>
                         <div className="ml-auto">
                           <div className="flex items-center space-x-2">
-                            <Button variant="outline" size="sm" className="w-20">
-                              Disabled
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className={`w-20 ${useSettingsStore.getState().notificationPreferences.sms ? 
+                                "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400" : ""}`}
+                              onClick={() => {
+                                const currentValue = useSettingsStore.getState().notificationPreferences.sms;
+                                useSettingsStore.getState().setNotificationPreference('sms', !currentValue);
+                              }}
+                            >
+                              {useSettingsStore.getState().notificationPreferences.sms ? "Enabled" : "Disabled"}
                             </Button>
                           </div>
                         </div>
@@ -237,27 +304,59 @@ export default function Settings() {
                         <p className="text-sm text-muted-foreground">When someone comments on your content</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className={`h-7 gap-1 text-xs ${useSettingsStore.getState().notificationPreferences.newComments.email ? "bg-muted" : ""}`}
+                          onClick={() => {
+                            const currentValue = useSettingsStore.getState().notificationPreferences.newComments.email;
+                            useSettingsStore.getState().setNestedNotificationPreference('newComments', 'email', !currentValue);
+                          }}
+                        >
                           <Mail className="h-3 w-3" />
                           Email
                         </Button>
-                        <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs bg-muted">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className={`h-7 gap-1 text-xs ${useSettingsStore.getState().notificationPreferences.newComments.push ? "bg-muted" : ""}`}
+                          onClick={() => {
+                            const currentValue = useSettingsStore.getState().notificationPreferences.newComments.push;
+                            useSettingsStore.getState().setNestedNotificationPreference('newComments', 'push', !currentValue);
+                          }}
+                        >
                           <Bell className="h-3 w-3" />
                           Push
                         </Button>
                       </div>
                     </div>
-                      <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center">
                       <div>
                         <h4 className="font-medium">Account Activity</h4>
                         <p className="text-sm text-muted-foreground">When there&apos;s activity on your account</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs bg-muted">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className={`h-7 gap-1 text-xs ${useSettingsStore.getState().notificationPreferences.accountActivity.email ? "bg-muted" : ""}`}
+                          onClick={() => {
+                            const currentValue = useSettingsStore.getState().notificationPreferences.accountActivity.email;
+                            useSettingsStore.getState().setNestedNotificationPreference('accountActivity', 'email', !currentValue);
+                          }}
+                        >
                           <Mail className="h-3 w-3" />
                           Email
                         </Button>
-                        <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs bg-muted">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className={`h-7 gap-1 text-xs ${useSettingsStore.getState().notificationPreferences.accountActivity.push ? "bg-muted" : ""}`}
+                          onClick={() => {
+                            const currentValue = useSettingsStore.getState().notificationPreferences.accountActivity.push;
+                            useSettingsStore.getState().setNestedNotificationPreference('accountActivity', 'push', !currentValue);
+                          }}
+                        >
                           <Bell className="h-3 w-3" />
                           Push
                         </Button>
@@ -270,11 +369,27 @@ export default function Settings() {
                         <p className="text-sm text-muted-foreground">When someone mentions you in a comment</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs bg-muted">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className={`h-7 gap-1 text-xs ${useSettingsStore.getState().notificationPreferences.mentions.email ? "bg-muted" : ""}`}
+                          onClick={() => {
+                            const currentValue = useSettingsStore.getState().notificationPreferences.mentions.email;
+                            useSettingsStore.getState().setNestedNotificationPreference('mentions', 'email', !currentValue);
+                          }}
+                        >
                           <Mail className="h-3 w-3" />
                           Email
                         </Button>
-                        <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className={`h-7 gap-1 text-xs ${useSettingsStore.getState().notificationPreferences.mentions.push ? "bg-muted" : ""}`}
+                          onClick={() => {
+                            const currentValue = useSettingsStore.getState().notificationPreferences.mentions.push;
+                            useSettingsStore.getState().setNestedNotificationPreference('mentions', 'push', !currentValue);
+                          }}
+                        >
                           <Bell className="h-3 w-3" />
                           Push
                         </Button>

@@ -1,4 +1,5 @@
 // File: src/app/dashboard/layout.js
+"use client"
 import { Sidebar } from "@/components/sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeSwitcher } from "@/components/theme-switcher"
@@ -6,13 +7,23 @@ import { UserNav } from "@/components/dashboard/user-nav"
 import { Search, BellIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useSettingsStore } from "@/lib/store"
 
 export default function DashboardLayout({ children }) {
+  const { notificationPreferences } = useSettingsStore()
+  
+  // Calculate notification count
+  const notificationCount = notificationPreferences ? 
+    Object.values(notificationPreferences).filter(v => 
+      typeof v === 'boolean' && v === true
+    ).length : 0
+    
   return (
     <ThemeProvider defaultTheme="system" storageKey="dashboard-theme">
       <div className="flex min-h-screen bg-muted/10">
         <Sidebar />
-        <div className="flex-1 md:pl-[260px]">          <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b bg-background/90 backdrop-blur-sm px-6 shadow-sm">
+        <div className="flex-1 md:pl-[260px]">
+          <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b bg-background/90 backdrop-blur-sm px-6 shadow-sm">
             <div className="md:hidden w-8" />
             
             {/* Search Bar */}
@@ -33,7 +44,9 @@ export default function DashboardLayout({ children }) {
               {/* Notification Button */}
               <Button variant="ghost" size="icon" className="relative hidden md:flex">
                 <BellIcon className="h-5 w-5" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-red-500">5</Badge>
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-red-500">
+                  {notificationCount}
+                </Badge>
               </Button>
               
               <ThemeSwitcher />
