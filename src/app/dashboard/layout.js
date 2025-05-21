@@ -12,12 +12,11 @@ export default function DashboardLayout({ children }) {
     <ThemeProvider defaultTheme="system" storageKey="dashboard-theme">
       <div className="flex min-h-screen bg-muted/10">
         <Sidebar />
-        <div className="flex-1 md:pl-[260px]">
-          <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b bg-background/90 backdrop-blur-sm px-6 shadow-sm">
+        <div className="flex-1 md:pl-[260px]">          <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b bg-background/90 backdrop-blur-sm px-6 shadow-sm">
             <div className="md:hidden w-8" />
             
             {/* Search Bar */}
-            <div className="hidden md:flex flex-1 items-center h-9 w-full max-w-sm rounded-md border bg-background px-3 text-sm text-muted-foreground ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 transition-all hover:border-primary/50">
+            <div className="hidden md:flex items-center h-9 w-full max-w-sm rounded-md border bg-background px-3 text-sm text-muted-foreground ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 transition-all hover:border-primary/50">
               <Search className="h-4 w-4 mr-2 text-muted-foreground" />
               <input
                 type="search"
@@ -26,8 +25,10 @@ export default function DashboardLayout({ children }) {
               />
             </div>
             
-            <div className="flex-1 md:flex-none" />
+            {/* Spacer to push controls to the right */}
+            <div className="flex-1" />
             
+            {/* Controls moved to the right */}
             <div className="flex items-center gap-4">
               {/* Notification Button */}
               <Button variant="ghost" size="icon" className="relative hidden md:flex">
